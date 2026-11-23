@@ -1,33 +1,42 @@
 public class Governo {
-    public int arrecadarImpostos(Cidade c) {
-        int base = (c.getServos() * c.getTaxaImposto()) / 100;
-        double mult = multiplicadorPara(c.getNivelJustica());
+    public static final int TAXA_MAXIMA = 50;
+    public static final double MULTIPLICADOR_JUSTA = 0.8;
+    public static final double MULTIPLICADOR_MODERADA = 1.0;
+    public static final double MULTIPLICADOR_SEVERA = 1.3;
+
+    public int arrecadarImpostos(Cidade cidade) {
+        if (cidade.isImpostosArrecadados()) {
+            return -1;
+        }
+        double base = (cidade.getServos() * cidade.getTaxaImposto()) / 100.0;
+        double mult = multiplicadorPara(cidade.getNivelJustica());
         int arrecadado = (int) (base * mult);
-        c.adicionarFlorins(arrecadado);
+
+        cidade.adicionarFlorins(arrecadado);
+        cidade.marcarImpostosArrecadados();
         return arrecadado;
     }
 
-    public boolean definirTaxaImposto(Cidade c, int taxa) {
-        if (taxa >= 0 && taxa <= 50) { //[cite: 108]
-            c.setTaxaImposto(taxa);
-            return true;
+    public boolean definirTaxaImposto(Cidade cidade, int taxa) {
+        if (taxa < 0 || taxa > TAXA_MAXIMA) {
+            return false;
         }
-        return false;
+        cidade.setTaxaImposto(taxa);
+        return true;
     }
 
-    public boolean definirJustica(Cidade c, String nivel) {
-        if (nivel.equals("Justa") || nivel.equals("Moderada") || nivel.equals("Severa")) { //[cite: 108]
-            c.setNivelJustica(nivel);
+    public boolean definirJustica(Cidade cidade, String nivel) {
+        if (nivel == null) return false;
+        if (nivel.equals("Justa") || nivel.equals("Moderada") || nivel.equals("Severa")) {
+            cidade.setNivelJustica(nivel);
             return true;
         }
         return false;
     }
 
     private double multiplicadorPara(String nivel) {
-        switch (nivel) {
-            case "Justa": return 0.8;     //[cite: 108]
-            case "Severa": return 1.3;    //[cite: 108]
-            default: return 1.0;          // Moderada[cite: 108]
-        }
+        if ("Justa".equals(nivel)) return MULTIPLICADOR_JUSTA;
+        if ("Severa".equals(nivel)) return MULTIPLICADOR_SEVERA;
+        return MULTIPLICADOR_MODERADA;
     }
 }

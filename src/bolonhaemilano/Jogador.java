@@ -1,10 +1,14 @@
 public class Jogador {
+    public static final String[] TITULOS = {
+        "Cavaleiro", "Barao", "Conde", "Marques", "Duque", "Rei/Rainha"
+    };
+
     private String nome;
-    private String titulo;
+    private int nivelTitulo;
 
     public Jogador(String nome) {
         this.nome = nome;
-        this.titulo = "Cavaleiro"; // Começa sempre como Cavaleiro[cite: 18, 21]
+        this.nivelTitulo = 0;
     }
 
     public String getNome() {
@@ -12,10 +16,22 @@ public class Jogador {
     }
 
     public String getTitulo() {
-        return titulo;
+        return TITULOS[nivelTitulo];
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public int getNivelTitulo() {
+        return nivelTitulo;
+    }
+
+    public boolean promover() {
+        if (ehMonarca()) {
+            return false;
+        }
+        nivelTitulo++;
+        return true;
+    }
+
+    public boolean ehMonarca() {
+        return nivelTitulo == TITULOS.length - 1;
     }
 }

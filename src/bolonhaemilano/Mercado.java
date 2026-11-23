@@ -1,6 +1,7 @@
 public class Mercado {
-    private final int PRECO_GRAO = 2;   //[cite: 106]
-    private final int PRECO_TERRA = 1;  //[cite: 106]
+    public static final int PRECO_GRAO = 2;
+    public static final int PRECO_TERRA = 1;
+
 
     public int getPrecoGrao() { return PRECO_GRAO; }
     public int getPrecoTerra() { return PRECO_TERRA; }

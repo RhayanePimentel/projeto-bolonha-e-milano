@@ -10,19 +10,23 @@ public class Cidade {
     private String nivelJustica;
     private int soldados;
     private int construcoes;
+    private boolean colheitaFeita;
+    private boolean impostosArrecadados;
 
     public Cidade(String nome, Jogador dono) {
         this.nome = nome;
-        this.anoAtual = 1400; //[cite: 18, 105]
         this.dono = dono;
-        this.florins = 1000;      //[cite: 29, 105]
-        this.terras = 10000;    //[cite: 29, 105]
-        this.graos = 500;       //[cite: 29, 105]
-        this.servos = 200;      //[cite: 45, 105]
-        this.taxaImposto = 10;  //[cite: 64, 105]
-        this.nivelJustica = "Moderada"; //[cite: 64, 106]
-        this.soldados = 0;      //[cite: 84, 106]
-        this.construcoes = 0;   //[cite: 84, 106]
+        this.anoAtual = 1400;
+        this.florins = 1000;
+        this.terras = 10000;
+        this.graos = 500;
+        this.servos = 200;
+        this.taxaImposto = 10;
+        this.nivelJustica = "Moderada";
+        this.soldados = 0;
+        this.construcoes = 0;
+        this.colheitaFeita = false;
+        this.impostosArrecadados = false;
     }
 
     public String getNome() { return nome; }
@@ -39,59 +43,74 @@ public class Cidade {
     public int getSoldados() { return soldados; }
     public int getConstrucoes() { return construcoes; }
 
+    public boolean isColheitaFeita() { return colheitaFeita; }
+    public void marcarColheitaFeita() { this.colheitaFeita = true; }
+    public boolean isImpostosArrecadados() { return impostosArrecadados; }
+    public void marcarImpostosArrecadados() { this.impostosArrecadados = true; }
+
     public void avancarAno() {
         this.anoAtual++;
+        this.colheitaFeita = false;
+        this.impostosArrecadados = false;
     }
 
-    // Métodos seguros para recursos acumuláveis[cite: 106]
-    public void adicionarFlorins(int qtd) { this.florins += qtd; }
+    public void adicionarFlorins(int qtd) { if (qtd > 0) this.florins += qtd; }
     public boolean removerFlorins(int qtd) {
-        if (this.florins >= qtd) { this.florins -= qtd; return true; }
-        return false;
+        if (qtd <= 0 || qtd > this.florins) return false;
+        this.florins -= qtd;
+        return true;
     }
 
-    public void adicionarTerras(int qtd) { this.terras += qtd; }
+    public void adicionarTerras(int qtd) { if (qtd > 0) this.terras += qtd; }
     public boolean removerTerras(int qtd) {
-        if (this.terras >= qtd) { this.terras -= qtd; return true; }
-        return false;
+        if (qtd <= 0 || qtd > this.terras) return false;
+        this.terras -= qtd;
+        return true;
     }
 
-    public void adicionarGraos(int qtd) { this.graos += qtd; }
+    public void adicionarGraos(int qtd) { if (qtd > 0) this.graos += qtd; }
     public boolean removerGraos(int qtd) {
-        if (this.graos >= qtd) { this.graos -= qtd; return true; }
-        return false;
+        if (qtd <= 0 || qtd > this.graos) return false;
+        this.graos -= qtd;
+        return true;
     }
 
-    public void adicionarServos(int qtd) { this.servos += qtd; }
+    public void adicionarServos(int qtd) { if (qtd > 0) this.servos += qtd; }
     public boolean removerServos(int qtd) {
-        if (this.servos >= qtd) { this.servos -= qtd; return true; }
-        return false;
+        if (qtd <= 0 || qtd > this.servos) return false;
+        this.servos -= qtd;
+        return true;
     }
 
-    public void adicionarSoldados(int qtd) { this.soldados += qtd; }
+    public void adicionarSoldados(int qtd) { if (qtd > 0) this.soldados += qtd; }
     public boolean removerSoldados(int qtd) {
-        if (this.soldados >= qtd) { this.soldados -= qtd; return true; }
-        return false;
+        if (qtd <= 0 || qtd > this.soldados) return false;
+        this.soldados -= qtd;
+        return true;
     }
 
-    public void adicionarConstrucoes(int qtd) { this.construcoes += qtd; }
+    public void adicionarConstrucoes(int qtd) { if (qtd > 0) this.construcoes += qtd; }
     public boolean removerConstrucoes(int qtd) {
-        if (this.construcoes >= qtd) { this.construcoes -= qtd; return true; }
-        return false;
+        if (qtd <= 0 || qtd > this.construcoes) return false;
+        this.construcoes -= qtd;
+        return true;
     }
 
     public void exibirStatus() {
-        System.out.println("\n--- STATUS DA CIDADE ---");
-        System.out.println("Cidade: " + nome + " (Ano: " + anoAtual + ")");
-        System.out.println("Governante: " + dono.getNome() + " [" + dono.getTitulo() + "]");
-        System.out.println("Florins (Dinheiro): " + florins);
+        System.out.println("----------------------------------------");
+        System.out.println("Cidade: " + nome);
+        System.out.println("Governante: " + dono.getNome() + " (" + dono.getTitulo() + ")");
+        System.out.println("Ano: " + anoAtual);
+        System.out.println("Florins: " + florins);
         System.out.println("Terras: " + terras + " hectares");
-        System.out.println("Grãos (Alimento): " + graos);
-        System.out.println("Servos (População): " + servos);
-        System.out.println("Taxa de Imposto: " + taxaImposto + "%");
-        System.out.println("Nível de Justiça: " + nivelJustica);
+        System.out.println("Graos em estoque: " + graos + " unidades");
+        System.out.println("Servos: " + servos);
+        System.out.println("Taxa de imposto: " + taxaImposto + "%");
+        System.out.println("Nivel de justica: " + nivelJustica);
         System.out.println("Soldados: " + soldados);
-        System.out.println("Construções: " + construcoes);
-        System.out.println("------------------------\n");
+        System.out.println("Construcoes: " + construcoes);
+        System.out.println("Colheita deste ano: " + (colheitaFeita ? "feita" : "pendente"));
+        System.out.println("Impostos deste ano: " + (impostosArrecadados ? "arrecadados" : "pendentes"));
+        System.out.println("----------------------------------------");
     }
 }

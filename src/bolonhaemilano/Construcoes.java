@@ -1,30 +1,28 @@
 public class Construcoes {
-    private final int PRECO_SOLDADO = 5;      //[cite: 109]
-    private final int PRECO_CONSTRUCAO = 20;  //[cite: 109]
+    public static final int CUSTO_SOLDADO_FLORINS = 5;
+    public static final int CUSTO_SOLDADO_SERVOS = 1;
+    public static final int CUSTO_CONSTRUCAO_FLORINS = 20;
 
-    public boolean recrutarSoldados(Cidade c, int qtd) {
+    public boolean recrutarSoldados(Cidade cidade, int qtd) {
         if (qtd <= 0) return false;
-        int custoFlorins = qtd * PRECO_SOLDADO;
-        int servosNecessarios = qtd * 1; // 1 servo por soldado[cite: 109]
-
-        // Valida os dois recursos ANTES de alterar qualquer um[cite: 109]
-        if (c.getFlorins() < custoFlorins || c.getServos() < servosNecessarios) {
+        int custoFlorins = qtd * CUSTO_SOLDADO_FLORINS;
+        int custoServos = qtd * CUSTO_SOLDADO_SERVOS;
+        if (cidade.getFlorins() < custoFlorins || cidade.getServos() < custoServos) {
             return false;
         }
-
-        c.removerFlorins(custoFlorins);
-        c.removerServos(servosNecessarios);
-        c.adicionarSoldados(qtd);
+        cidade.removerFlorins(custoFlorins);
+        cidade.removerServos(custoServos);
+        cidade.adicionarSoldados(qtd);
         return true;
     }
 
-    public boolean construir(Cidade c, int qtd) {
+    public boolean construir(Cidade cidade, int qtd) {
         if (qtd <= 0) return false;
-        int custo = qtd * PRECO_CONSTRUCAO;
-        if (c.removerFlorins(custo)) {
-            c.adicionarConstrucoes(qtd);
-            return true;
+        int custoFlorins = qtd * CUSTO_CONSTRUCAO_FLORINS;
+        if (!cidade.removerFlorins(custoFlorins)) {
+            return false;
         }
-        return false;
+        cidade.adicionarConstrucoes(qtd);
+        return true;
     }
 }
