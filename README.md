@@ -13,3 +13,8 @@ java Testes
 Pausa Interativa: O sistema aguarda o usuário pressionar ENTER para continuar, evitando que as mensagens sumam rapidamente da tela.   
 
 📂 Estrutura do Repositóriosrc/bolonhaemilano/ — Código-fonte completo em Java (incluindo a classe Testes.java).   uml/ — Diagrama de Classes final e Diagrama de Sequência.   casos-de-uso/ — Diagrama de Casos de Uso do sistema.   
+
+💾 Como Salvar o Projeto no seu VSCODE? 
+Abra o seu VSCODE, clique em terminal -> novo terminal e digite:
+git clone https://github.com/RhayanePimentel/projeto-bolonha-e-milano.git
+cd projeto-bolonha-e-milano
